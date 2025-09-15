@@ -1,0 +1,580 @@
+{
+  "Environmental": [
+    {
+      "field": "carbon_emissions",
+      "label": "Carbon Emissions Check",
+      "description": "Validates that reported direct carbon emissions remain within the defined organizational threshold.",
+      "type": "numeric",
+      "standards": [
+        "GHG Protocol Corporate Standard Ch.4",
+        "ISO 14064-1:2018 7.4.3",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "renewable_energy_ratio",
+      "label": "Renewable Energy Ratio",
+      "description": "Ensures that a minimum share of total energy use comes from renewable sources.",
+      "type": "numeric",
+      "standards": [
+        "GHG Protocol Scope 2 Guidance Sec.6.2",
+        "ISO 14064-1:2018 7.4.3",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "water_usage_efficiency",
+      "label": "Water Usage Efficiency",
+      "description": "Confirms that water is used efficiently, ensuring processes consume no more than set thresholds.",
+      "type": "numeric",
+      "standards": [
+        "GRI 303: Water and Effluents 2018",
+        "ISO 14046 Water Footprint",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "waste_recycling_rate",
+      "label": "Waste Recycling Rate",
+      "description": "Checks that a minimum portion of waste generated is being recycled or recovered.",
+      "type": "numeric",
+      "standards": [
+        "GRI 306: Waste 2020",
+        "EU Waste Framework Directive",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "biodiversity_protection",
+      "label": "Biodiversity Protection",
+      "description": "Ensures that biodiversity protection practices are reported and in place.",
+      "type": "boolean",
+      "standards": [
+        "GRI 304: Biodiversity 2016",
+        "ISO 14055-1:2017",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "ghg_scope3_reporting",
+      "label": "GHG Scope 3 Reporting",
+      "description": "Confirms whether indirect Scope 3 emissions are disclosed in accordance with recognized standards.",
+      "type": "boolean",
+      "standards": [
+        "GHG Protocol Scope 3 Standard Ch.5",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "hazardous_waste_disclosure",
+      "label": "Hazardous Waste Disclosure",
+      "description": "Ensures hazardous waste management is disclosed transparently as 'disclosed' or 'not_disclosed'.",
+      "type": "regex",
+      "standards": [
+        "GRI 306: Waste 2020",
+        "Basel Convention",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "energy_efficiency_index",
+      "label": "Energy Efficiency Index",
+      "description": "Verifies overall energy efficiency performance meets organizational targets.",
+      "type": "numeric",
+      "standards": [
+        "ISO 50001:2018 Energy Management Systems",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "environmental_fines",
+      "label": "Environmental Fines Check",
+      "description": "Validates that no environmental fines have been incurred during the reporting period.",
+      "type": "numeric",
+      "standards": [
+        "GRI 307: Environmental Compliance 2016",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "climate_risk_assessment",
+      "label": "Climate Risk Assessment",
+      "description": "Ensures the organization performs a climate risk assessment in line with global frameworks.",
+      "type": "boolean",
+      "standards": [
+        "TCFD Recommendations",
+        "ISO 14091:2021",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "scope1_emissions",
+      "label": "Scope 1 Coverage",
+      "description": "Ensures that Scope 1 (direct) emissions are comprehensively reported and included in the inventory.",
+      "type": "numeric",
+      "standards": [
+        "GHG Protocol Corporate Standard Ch.4.2",
+        "ISO 14064-1:2018 7.3.2",
+        "IPCC 2006 Vol.1 Ch.2",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "scope2_emissions",
+      "label": "Scope 2 Coverage",
+      "description": "Ensures Scope 2 (indirect energy) emissions are disclosed in compliance with GHG Protocol.",
+      "type": "numeric",
+      "standards": [
+        "GHG Protocol Scope 2 Guidance Sec.2.2",
+        "ISO 14064-1:2018 7.3.3",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "scope3_emissions",
+      "label": "Scope 3 Coverage",
+      "description": "Ensures Scope 3 (value chain) emissions are disclosed when material and relevant.",
+      "type": "numeric",
+      "standards": [
+        "GHG Protocol Scope 3 Standard Ch.4",
+        "ISO 14064-1:2018 7.3.4",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "emission_factors_documented",
+      "label": "Emission Factors Documented",
+      "description": "Ensures that emission factors used for calculations are disclosed and documented.",
+      "type": "boolean",
+      "standards": [
+        "IPCC 2006 Vol.1 Ch.2.2.1",
+        "ISO 14064-1:2018 7.4.3",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "units_consistency",
+      "label": "Units Consistency",
+      "description": "Checks that units of measurement are consistent across all reported emissions.",
+      "type": "boolean",
+      "standards": [
+        "GHG Protocol Appendix A",
+        "ISO 14064-1:2018 9.2.2",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "reporting_period_consistency",
+      "label": "Reporting Period Consistency",
+      "description": "Ensures emissions reporting period matches the organization’s financial or operational cycle.",
+      "type": "boolean",
+      "standards": [
+        "GHG Protocol Ch.5.3",
+        "ISO 14064-1:2018 7.5.1",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "energy_consumption_total",
+      "label": "Total Energy Consumption",
+      "description": "Total energy consumed (MWh).",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "renewable_energy_percentage",
+      "label": "Renewable Energy %",
+      "description": "% energy from renewables.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "water_withdrawal_total",
+      "label": "Total Water Withdrawal",
+      "description": "Total water withdrawn (m³).",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "water_recycled_percentage",
+      "label": "Water Recycled %",
+      "description": "% water recycled.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "waste_generated_total",
+      "label": "Total Waste Generated",
+      "description": "Total waste generated (tons).",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "waste_recycled_percentage",
+      "label": "Waste Recycled %",
+      "description": "% waste recycled.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "greenhouse_gas_intensity",
+      "label": "GHG Intensity",
+      "description": "GHG emissions per unit of revenue/output.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    }
+  ],
+  "Social": [
+    {
+      "field": "employee_diversity_ratio",
+      "label": "Employee Diversity Ratio",
+      "description": "Ensures at least 30% diversity across the workforce (gender, ethnicity, or other protected classes).",
+      "type": "numeric",
+      "standards": [
+        "GRI 405: Diversity and Equal Opportunity",
+        "ISO 26000 Sec.6.3.7",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "pay_equity_gap",
+      "label": "Pay Equity Gap",
+      "description": "Validates that the gender pay gap does not exceed 10% across equivalent roles.",
+      "type": "numeric",
+      "standards": [
+        "GRI 405-2 Ratio of basic salary",
+        "ILO Equal Remuneration Convention C100",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "health_safety_incidents",
+      "label": "Health & Safety Incidents",
+      "description": "Ensures that workplace incidents remain within safety thresholds.",
+      "type": "numeric",
+      "standards": [
+        "GRI 403: Occupational Health and Safety",
+        "ISO 45001",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "employee_training_hours",
+      "label": "Employee Training Hours",
+      "description": "Validates employees receive a minimum of 20 hours of professional development annually.",
+      "type": "numeric",
+      "standards": [
+        "GRI 404: Training and Education",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "turnover_rate",
+      "label": "Turnover Rate Check",
+      "description": "Ensures voluntary employee turnover does not exceed 15% annually.",
+      "type": "numeric",
+      "standards": [
+        "GRI 401-1 Employee Turnover",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "whistleblower_policy",
+      "label": "Whistleblower Policy",
+      "description": "Confirms presence of a whistleblower protection mechanism.",
+      "type": "boolean",
+      "standards": [
+        "GRI 102-17 Mechanisms for advice and concerns",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "customer_satisfaction_index",
+      "label": "Customer Satisfaction Index",
+      "description": "Validates customer satisfaction levels exceed 70%.",
+      "type": "numeric",
+      "standards": [
+        "ISO 10004: Quality management — Customer satisfaction",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "community_investment",
+      "label": "Community Investment",
+      "description": "Ensures a minimum level of financial investment in community programs.",
+      "type": "numeric",
+      "standards": [
+        "GRI 413: Local Communities",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "data_privacy_incidents",
+      "label": "Data Privacy Incidents",
+      "description": "Validates that no data privacy breaches have occurred in the reporting period.",
+      "type": "numeric",
+      "standards": [
+        "GRI 418: Customer Privacy",
+        "GDPR",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "human_rights_policy",
+      "label": "Human Rights Policy",
+      "description": "Confirms presence of a formal human rights policy aligned with UN Guiding Principles.",
+      "type": "boolean",
+      "standards": [
+        "GRI 412: Human Rights Assessment",
+        "ISO 26000 Sec.6.3",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "employee_count_total",
+      "label": "Total Employees",
+      "description": "Total number of employees.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "employee_diversity_women_percentage",
+      "label": "% Women Employees",
+      "description": "Percentage of women employees.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "employee_diversity_women_managers_percentage",
+      "label": "% Women Managers",
+      "description": "Percentage of women in managerial roles.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "employee_turnover_rate",
+      "label": "Employee Turnover Rate",
+      "description": "Annual percentage of employee turnover.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "training_hours_average",
+      "label": "Average Training Hours",
+      "description": "Average training hours per employee.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "csr_spend_amount",
+      "label": "CSR Spend (₹)",
+      "description": "Total CSR spend in INR.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "csr_spend_percentage",
+      "label": "CSR Spend %",
+      "description": "CSR spend as % of prescribed spend.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "community_beneficiaries_count",
+      "label": "CSR Beneficiaries",
+      "description": "Number of people benefitted by CSR projects.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    }
+  ],
+  "Governance": [
+    {
+      "field": "board_independence_ratio",
+      "label": "Board Independence Ratio",
+      "description": "Ensures that at least 50% of board members are independent.",
+      "type": "numeric",
+      "standards": [
+        "OECD Principles of Corporate Governance",
+        "GRI 102-22",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "executive_compensation_linked_esg",
+      "label": "Exec Compensation Linked to ESG",
+      "description": "Confirms that executive pay structures are linked to ESG performance metrics.",
+      "type": "boolean",
+      "standards": [
+        "GRI 102-35 Remuneration policies",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "anti_corruption_policy",
+      "label": "Anti-Corruption Policy",
+      "description": "Ensures that a zero-tolerance anti-corruption policy exists.",
+      "type": "boolean",
+      "standards": [
+        "GRI 205: Anti-Corruption",
+        "ISO 37001:2016",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "shareholder_rights_protection",
+      "label": "Shareholder Rights Protection",
+      "description": "Confirms measures to protect shareholder voting and information rights.",
+      "type": "boolean",
+      "standards": [
+        "OECD Principles of Corporate Governance Sec.III",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "audit_committee_independence",
+      "label": "Audit Committee Independence",
+      "description": "Ensures audit committees have majority independent directors.",
+      "type": "numeric",
+      "standards": [
+        "GRI 102-22",
+        "IIA Standards",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "tax_transparency",
+      "label": "Tax Transparency",
+      "description": "Validates disclosure of country-by-country tax payments.",
+      "type": "boolean",
+      "standards": [
+        "GRI 207: Tax 2019",
+        "OECD BEPS Action 13",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "political_contributions_disclosure",
+      "label": "Political Contributions Disclosure",
+      "description": "Ensures that political contributions are disclosed transparently.",
+      "type": "regex",
+      "standards": [
+        "GRI 415: Public Policy",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "cybersecurity_governance",
+      "label": "Cybersecurity Governance",
+      "description": "Confirms that governance structures exist for cybersecurity oversight.",
+      "type": "boolean",
+      "standards": [
+        "ISO/IEC 27014:2013 Governance of information security",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "risk_management_framework",
+      "label": "Risk Management Framework",
+      "description": "Validates existence of an enterprise risk management framework.",
+      "type": "boolean",
+      "standards": [
+        "COSO Enterprise Risk Management Framework",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "stakeholder_engagement",
+      "label": "Stakeholder Engagement",
+      "description": "Ensures structured engagement with stakeholders on ESG issues.",
+      "type": "boolean",
+      "standards": [
+        "GRI 102-40 Stakeholder engagement",
+        "BRSR"
+      ]
+    },
+    {
+      "field": "board_size",
+      "label": "Board Size",
+      "description": "Total number of board members.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "board_independence_percentage",
+      "label": "% Independent Directors",
+      "description": "Percentage of independent directors.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "women_on_board_percentage",
+      "label": "% Women Directors",
+      "description": "Percentage of women directors on the board.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "esg_committee_presence",
+      "label": "ESG Committee",
+      "description": "Does company have an ESG/sustainability committee?",
+      "type": "boolean",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "whistleblower_mechanism_presence",
+      "label": "Whistleblower Mechanism",
+      "description": "Presence of whistleblower mechanism (Y/N).",
+      "type": "boolean",
+      "standards": [
+        "BRSR"
+      ]
+    },
+    {
+      "field": "supplier_esg_screened_percentage",
+      "label": "% ESG-screened Suppliers",
+      "description": "Percentage of suppliers screened for ESG criteria.",
+      "type": "numeric",
+      "standards": [
+        "BRSR"
+      ]
+    }
+  ]
+}
