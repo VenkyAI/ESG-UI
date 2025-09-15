@@ -1,0 +1,242 @@
+{
+  "carbon_emissions": {
+    "type": "numeric",
+    "description": "Validates that reported direct carbon emissions remain within the defined organizational threshold.",
+    "category": "Environmental",
+    "reference": "GHG Protocol Corporate Standard Ch.4; ISO 14064-1:2018 7.4.3",
+    "max": 1000.0
+  },
+  "renewable_energy_ratio": {
+    "type": "numeric",
+    "description": "Ensures that a minimum share of total energy use comes from renewable sources.",
+    "category": "Environmental",
+    "reference": "GHG Protocol Scope 2 Guidance Sec.6.2; ISO 14064-1:2018 7.4.3",
+    "min": 0.2
+  },
+  "water_usage_efficiency": {
+    "type": "numeric",
+    "description": "Confirms that water is used efficiently, ensuring processes consume no more than set thresholds.",
+    "category": "Environmental",
+    "reference": "GRI 303: Water and Effluents 2018; ISO 14046 Water Footprint",
+    "min": 0.5
+  },
+  "waste_recycling_rate": {
+    "type": "numeric",
+    "description": "Checks that a minimum portion of waste generated is being recycled or recovered.",
+    "category": "Environmental",
+    "reference": "GRI 306: Waste 2020; EU Waste Framework Directive",
+    "min": 0.3
+  },
+  "biodiversity_protection": {
+    "type": "boolean",
+    "description": "Ensures that biodiversity protection practices are reported and in place.",
+    "category": "Environmental",
+    "reference": "GRI 304: Biodiversity 2016; ISO 14055-1:2017"
+  },
+  "ghg_scope3_reporting": {
+    "type": "boolean",
+    "description": "Confirms whether indirect Scope 3 emissions are disclosed in accordance with recognized standards.",
+    "category": "Environmental",
+    "reference": "GHG Protocol Scope 3 Standard Ch.5"
+  },
+  "hazardous_waste_disclosure": {
+    "type": "regex",
+    "description": "Ensures hazardous waste management is disclosed transparently as 'disclosed' or 'not_disclosed'.",
+    "category": "Environmental",
+    "reference": "GRI 306: Waste 2020; Basel Convention",
+    "pattern": "^(disclosed|not_disclosed)$"
+  },
+  "energy_efficiency_index": {
+    "type": "numeric",
+    "description": "Verifies overall energy efficiency performance meets organizational targets.",
+    "category": "Environmental",
+    "reference": "ISO 50001:2018 Energy Management Systems",
+    "min": 0.7
+  },
+  "environmental_fines": {
+    "type": "numeric",
+    "description": "Validates that no environmental fines have been incurred during the reporting period.",
+    "category": "Environmental",
+    "reference": "GRI 307: Environmental Compliance 2016",
+    "max": 0.0
+  },
+  "climate_risk_assessment": {
+    "type": "boolean",
+    "description": "Ensures the organization performs a climate risk assessment in line with global frameworks.",
+    "category": "Environmental",
+    "reference": "TCFD Recommendations; ISO 14091:2021"
+  },
+  "scope1_emissions": {
+    "type": "numeric",
+    "description": "Ensures that Scope 1 (direct) emissions are comprehensively reported and included in the inventory.",
+    "category": "Environmental",
+    "reference": "GHG Protocol Corporate Standard Ch.4.2; ISO 14064-1:2018 7.3.2; IPCC 2006 Vol.1 Ch.2"
+  },
+  "NaN": {
+    "type": "expression",
+    "description": "Validates disclosure across all 15 Scope 3 categories when applicable.",
+    "category": "Environmental",
+    "reference": "GHG Protocol Scope 3 Standard Ch.5"
+  },
+  "scope2_emissions": {
+    "type": "numeric",
+    "description": "Ensures Scope 2 (indirect energy) emissions are disclosed in compliance with GHG Protocol.",
+    "category": "Environmental",
+    "reference": "GHG Protocol Scope 2 Guidance Sec.2.2; ISO 14064-1:2018 7.3.3"
+  },
+  "scope3_emissions": {
+    "type": "numeric",
+    "description": "Ensures Scope 3 (value chain) emissions are disclosed when material and relevant.",
+    "category": "Environmental",
+    "reference": "GHG Protocol Scope 3 Standard Ch.4; ISO 14064-1:2018 7.3.4"
+  },
+  "emission_factors_documented": {
+    "type": "boolean",
+    "description": "Ensures that emission factors used for calculations are disclosed and documented.",
+    "category": "Environmental",
+    "reference": "IPCC 2006 Vol.1 Ch.2.2.1; ISO 14064-1:2018 7.4.3"
+  },
+  "units_consistency": {
+    "type": "boolean",
+    "description": "Checks that units of measurement are consistent across all reported emissions.",
+    "category": "Environmental",
+    "reference": "GHG Protocol Appendix A; ISO 14064-1:2018 9.2.2"
+  },
+  "reporting_period_consistency": {
+    "type": "boolean",
+    "description": "Ensures emissions reporting period matches the organization\u2019s financial or operational cycle.",
+    "category": "Environmental",
+    "reference": "GHG Protocol Ch.5.3; ISO 14064-1:2018 7.5.1"
+  },
+  "employee_diversity_ratio": {
+    "type": "numeric",
+    "description": "Ensures at least 30% diversity across the workforce (gender, ethnicity, or other protected classes).",
+    "category": "Social",
+    "reference": "GRI 405: Diversity and Equal Opportunity; ISO 26000 Sec.6.3.7",
+    "min": 0.3
+  },
+  "pay_equity_gap": {
+    "type": "numeric",
+    "description": "Validates that the gender pay gap does not exceed 10% across equivalent roles.",
+    "category": "Social",
+    "reference": "GRI 405-2 Ratio of basic salary; ILO Equal Remuneration Convention C100",
+    "max": 0.1
+  },
+  "health_safety_incidents": {
+    "type": "numeric",
+    "description": "Ensures that workplace incidents remain within safety thresholds.",
+    "category": "Social",
+    "reference": "GRI 403: Occupational Health and Safety; ISO 45001",
+    "max": 5.0
+  },
+  "employee_training_hours": {
+    "type": "numeric",
+    "description": "Validates employees receive a minimum of 20 hours of professional development annually.",
+    "category": "Social",
+    "reference": "GRI 404: Training and Education",
+    "min": 20.0
+  },
+  "turnover_rate": {
+    "type": "numeric",
+    "description": "Ensures voluntary employee turnover does not exceed 15% annually.",
+    "category": "Social",
+    "reference": "GRI 401-1 Employee Turnover",
+    "max": 0.15
+  },
+  "whistleblower_policy": {
+    "type": "boolean",
+    "description": "Confirms presence of a whistleblower protection mechanism.",
+    "category": "Social",
+    "reference": "GRI 102-17 Mechanisms for advice and concerns"
+  },
+  "customer_satisfaction_index": {
+    "type": "numeric",
+    "description": "Validates customer satisfaction levels exceed 70%.",
+    "category": "Social",
+    "reference": "ISO 10004: Quality management \u2014 Customer satisfaction",
+    "min": 0.7
+  },
+  "community_investment": {
+    "type": "numeric",
+    "description": "Ensures a minimum level of financial investment in community programs.",
+    "category": "Social",
+    "reference": "GRI 413: Local Communities",
+    "min": 100000.0
+  },
+  "data_privacy_incidents": {
+    "type": "numeric",
+    "description": "Validates that no data privacy breaches have occurred in the reporting period.",
+    "category": "Social",
+    "reference": "GRI 418: Customer Privacy; GDPR",
+    "max": 0.0
+  },
+  "human_rights_policy": {
+    "type": "boolean",
+    "description": "Confirms presence of a formal human rights policy aligned with UN Guiding Principles.",
+    "category": "Social",
+    "reference": "GRI 412: Human Rights Assessment; ISO 26000 Sec.6.3"
+  },
+  "board_independence_ratio": {
+    "type": "numeric",
+    "description": "Ensures that at least 50% of board members are independent.",
+    "category": "Governance",
+    "reference": "OECD Principles of Corporate Governance; GRI 102-22",
+    "min": 0.5
+  },
+  "executive_compensation_linked_esg": {
+    "type": "boolean",
+    "description": "Confirms that executive pay structures are linked to ESG performance metrics.",
+    "category": "Governance",
+    "reference": "GRI 102-35 Remuneration policies"
+  },
+  "anti_corruption_policy": {
+    "type": "boolean",
+    "description": "Ensures that a zero-tolerance anti-corruption policy exists.",
+    "category": "Governance",
+    "reference": "GRI 205: Anti-Corruption; ISO 37001:2016"
+  },
+  "shareholder_rights_protection": {
+    "type": "boolean",
+    "description": "Confirms measures to protect shareholder voting and information rights.",
+    "category": "Governance",
+    "reference": "OECD Principles of Corporate Governance Sec.III"
+  },
+  "audit_committee_independence": {
+    "type": "numeric",
+    "description": "Ensures audit committees have majority independent directors.",
+    "category": "Governance",
+    "reference": "GRI 102-22; IIA Standards",
+    "min": 0.5
+  },
+  "tax_transparency": {
+    "type": "boolean",
+    "description": "Validates disclosure of country-by-country tax payments.",
+    "category": "Governance",
+    "reference": "GRI 207: Tax 2019; OECD BEPS Action 13"
+  },
+  "political_contributions_disclosure": {
+    "type": "regex",
+    "description": "Ensures that political contributions are disclosed transparently.",
+    "category": "Governance",
+    "reference": "GRI 415: Public Policy",
+    "pattern": "^(disclosed|not_disclosed)$"
+  },
+  "cybersecurity_governance": {
+    "type": "boolean",
+    "description": "Confirms that governance structures exist for cybersecurity oversight.",
+    "category": "Governance",
+    "reference": "ISO/IEC 27014:2013 Governance of information security"
+  },
+  "risk_management_framework": {
+    "type": "boolean",
+    "description": "Validates existence of an enterprise risk management framework.",
+    "category": "Governance",
+    "reference": "COSO Enterprise Risk Management Framework"
+  },
+  "stakeholder_engagement": {
+    "type": "boolean",
+    "description": "Ensures structured engagement with stakeholders on ESG issues.",
+    "category": "Governance",
+    "reference": "GRI 102-40 Stakeholder engagement"
+  }
+}

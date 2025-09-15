@@ -2,38 +2,80 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import json
-import psycopg2
 from pathlib import Path
+import psycopg2   # 👈 missing import
+import re
 
-app = FastAPI(title="ESG-UI Backend")
+app = FastAPI()
 
-# Enable CORS for frontend
+# Allow frontend (React) to talk to backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["*"],  # in prod, restrict to your domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Load schema
-SCHEMA_PATH = Path(__file__).resolve().parent.parent.parent / "esg_schema_gui.json"
-with open(SCHEMA_PATH, "r", encoding="utf-8") as f:
-    ESG_SCHEMA = json.load(f)
+# Paths
+BASE_DIR = Path(__file__).resolve().parent.parent
+UI_SCHEMA_PATH = BASE_DIR / "esg_schema_gui.json"
+VALIDATION_SCHEMA_PATH = BASE_DIR / "esg_validation_schema.json"
+
+# Load schemas
+with open(UI_SCHEMA_PATH, "r", encoding="utf-8") as f:
+    ESG_UI_SCHEMA = json.load(f)
+
+with open(VALIDATION_SCHEMA_PATH, "r", encoding="utf-8") as f:
+    ESG_VALIDATION_SCHEMA = json.load(f)
+
 
 @app.get("/schema")
 def get_schema():
-    return ESG_SCHEMA
+    """Return schema for frontend UI rendering"""
+    return ESG_UI_SCHEMA
 
-# ✅ New model for submissions
+
+@app.get("/validation-schema")
+def get_validation_schema():
+    """Return schema used for backend validation rules"""
+    return ESG_VALIDATION_SCHEMA
+
+
+# ✅ Model for submissions
 class ESGSubmission(BaseModel):
     company_id: str
     year: int
     metrics: dict
 
-# ✅ New endpoint to save data
+
+# ✅ Endpoint to save data
 @app.post("/submit")
 def submit_data(data: ESGSubmission):
+    # ✅ Validation loop
+    for field, rules in ESG_VALIDATION_SCHEMA.items():   # 👈 fixed name
+        if field in data.metrics:
+            value = data.metrics[field]
+
+            if rules["type"] == "numeric":
+                try:
+                    val = float(value)
+                    if "min" in rules and val < rules["min"]:
+                        return {"status": "error", "message": f"{field} must be ≥ {rules['min']}"}
+                    if "max" in rules and val > rules["max"]:
+                        return {"status": "error", "message": f"{field} must be ≤ {rules['max']}"}
+                except ValueError:
+                    return {"status": "error", "message": f"{field} must be a number"}
+
+            if rules["type"] == "regex":
+                if not re.match(rules["pattern"], str(value)):
+                    return {"status": "error", "message": f"{field} must match {rules['pattern']}"}
+
+            if rules["type"] == "boolean":
+                if not isinstance(value, bool):
+                    return {"status": "error", "message": f"{field} must be true/false"}
+
+    # ✅ If all validations pass → insert into DB
     try:
         conn = psycopg2.connect(
             dbname="esgdb",
