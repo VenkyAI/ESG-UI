@@ -1,50 +1,34 @@
-# =========================
-# Python / FastAPI
-# =========================
+# --- Python ---
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
-*.so
-*.egg
+*$py.class
+.venv/
+.env
 *.egg-info/
 .eggs/
-*.log
-*.pot
-*.pyc
-.Python
-env/
-venv/
-ENV/
-.venv/
-*.sqlite3
-
-# =========================
-# Node / React
-# =========================
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-package-lock.json
-.pnpm-debug.log*
-.next/
-dist/
 build/
+develop-eggs/
+dist/
+pip-wheel-metadata/
+.installed.cfg
 
-# =========================
-# IDE / Editor
-# =========================
-.vscode/
-.idea/
-*.swp
-*.swo
+# --- PyInstaller build artifacts ---
+*.spec
+/dist/
+/build/
+/*.exe
 
-# =========================
-# OS Files
-# =========================
+# --- Node / Frontend ---
+node_modules/
+/frontend/node_modules/
+/frontend/dist/
+/frontend/build/
+/frontend/.vite
+
+# --- OS / Editor cruft ---
 .DS_Store
 Thumbs.db
-# Ignore generated docs
+
+# --- Generated Docs ---
 *.docx
 *.pdf

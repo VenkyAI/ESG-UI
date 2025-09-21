@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Box,
   Tabs,
@@ -15,14 +15,20 @@ import {
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 
-// ✅ Import validation schema
-import validationSchema from "../esg_validation_schema.json";
-
 function ESGForm({ schema }) {
-  const categories = Object.keys(schema);
+  // ✅ Re-group schema (array → object by category)
+  const groupedSchema = useMemo(() => {
+    const groups = {};
+    schema.forEach((field) => {
+      if (!groups[field.category]) groups[field.category] = [];
+      groups[field.category].push(field);
+    });
+    return groups;
+  }, [schema]);
+
+  const categories = Object.keys(groupedSchema);
   const [tab, setTab] = useState(0);
 
-  // Standards selected per category
   const [selectedStandards, setSelectedStandards] = useState(
     categories.reduce((acc, c) => ({ ...acc, [c]: [] }), {})
   );
@@ -34,15 +40,10 @@ function ESGForm({ schema }) {
     severity: "success",
   });
 
-  const handleTabChange = (event, newValue) => {
-    setTab(newValue);
-  };
+  const handleTabChange = (event, newValue) => setTab(newValue);
 
   const handleInputChange = (field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleStandardChange = (category, std, checked) => {
@@ -54,118 +55,91 @@ function ESGForm({ schema }) {
     });
   };
 
-  const handleCloseSnackbar = () => {
+  const handleCloseSnackbar = () =>
     setSnackbar((prev) => ({ ...prev, open: false }));
-  };
 
-  const renderFields = (category, fields) => {
-    return fields
-      .filter((f) => {
-        const active = selectedStandards[category];
-        if (active.length === 0) return true;
+  const renderFields = (category, fields) =>
+    fields.map((f) => {
+      const value = formData[f.name];
+      let errorText = "";
 
-        // ✅ normalize standards: match if any selected standard is contained in field standards
-        return f.standards.some((s) =>
-          active.some((sel) => s.toUpperCase().includes(sel.toUpperCase()))
-        );
-      })
-      .map((f) => {
-        const rules = validationSchema[f.field];
-        let errorText = "";
-        const value = formData[f.field];
-
-        // ✅ Numeric validation
-        if (rules?.type === "numeric") {
-          const val = parseFloat(value);
-          if (rules.min !== undefined && !isNaN(val) && val < rules.min) {
-            errorText = `Must be ≥ ${rules.min}`;
-          }
-          if (rules.max !== undefined && !isNaN(val) && val > rules.max) {
-            errorText = `Must be ≤ ${rules.max}`;
-          }
+      if (f.type === "numeric") {
+        const val = parseFloat(value);
+        if (f.min !== null && !isNaN(val) && val < f.min) {
+          errorText = `Must be ≥ ${f.min}`;
         }
-
-        // ✅ Regex validation
-        if (rules?.type === "regex") {
-          if (value && rules.pattern) {
-            const pattern = new RegExp(rules.pattern);
-            if (!pattern.test(value)) {
-              errorText = `Must match: ${rules.pattern}`;
-            }
-          }
+        if (f.max !== null && !isNaN(val) && val > f.max) {
+          errorText = `Must be ≤ ${f.max}`;
         }
+      }
 
-        // ✅ Boolean validation
-        if (rules?.type === "boolean") {
-          if (value !== undefined && typeof value !== "boolean") {
-            errorText = "Must be true/false";
-          }
+      if (f.type === "regex" && value && f.pattern) {
+        const pattern = new RegExp(f.pattern);
+        if (!pattern.test(value)) {
+          errorText = `Must match: ${f.pattern}`;
         }
+      }
 
-        return (
-          <Box key={f.field} sx={{ mb: 2 }}>
-            <Box display="flex" alignItems="center">
-              <Typography variant="body1" sx={{ fontWeight: "bold", mr: 1 }}>
-                {f.label}
-              </Typography>
-              <Tooltip title={f.description}>
-                <IconButton size="small">
-                  <InfoIcon fontSize="small" />
-                </IconButton>
-              </Tooltip>
-            </Box>
-
-            {/* Render input type with validation */}
-            {f.type === "numeric" && (
-              <TextField
-                type="number"
-                fullWidth
-                variant="outlined"
-                size="small"
-                value={value || ""}
-                onChange={(e) => handleInputChange(f.field, e.target.value)}
-                error={!!errorText}
-                helperText={errorText}
-              />
-            )}
-
-            {f.type === "boolean" && (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={!!value}
-                    onChange={(e) =>
-                      handleInputChange(f.field, e.target.checked)
-                    }
-                  />
-                }
-                label="Yes"
-              />
-            )}
-
-            {(f.type === "text" || f.type === "regex" || !f.type) && (
-              <TextField
-                type="text"
-                fullWidth
-                variant="outlined"
-                size="small"
-                placeholder={
-                  f.type === "regex" ? "Enter value (pattern expected)" : ""
-                }
-                value={value || ""}
-                onChange={(e) => handleInputChange(f.field, e.target.value)}
-                error={!!errorText}
-                helperText={errorText}
-              />
-            )}
+      return (
+        <Box key={f.name} sx={{ mb: 2 }}>
+          <Box display="flex" alignItems="center">
+            <Typography variant="body1" sx={{ fontWeight: "bold", mr: 1 }}>
+              {f.label}
+            </Typography>
+            <Tooltip title={f.description || ""}>
+              <IconButton size="small">
+                <InfoIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
           </Box>
-        );
-      });
-  };
+
+          {f.type === "numeric" && (
+            <TextField
+              type="number"
+              fullWidth
+              variant="outlined"
+              size="small"
+              value={value || ""}
+              onChange={(e) => handleInputChange(f.name, e.target.value)}
+              error={!!errorText}
+              helperText={errorText}
+            />
+          )}
+
+          {f.type === "boolean" && (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={!!value}
+                  onChange={(e) => handleInputChange(f.name, e.target.checked)}
+                />
+              }
+              label="Yes"
+            />
+          )}
+
+          {(f.type === "text" || f.type === "regex" || !f.type) && (
+            <TextField
+              type="text"
+              fullWidth
+              variant="outlined"
+              size="small"
+              placeholder={
+                f.type === "regex" ? "Enter value (pattern expected)" : ""
+              }
+              value={value || ""}
+              onChange={(e) => handleInputChange(f.name, e.target.value)}
+              error={!!errorText}
+              helperText={errorText}
+            />
+          )}
+        </Box>
+      );
+    });
 
   const handleSubmit = () => {
     const payload = {
-      company_id: "123e4567-e89b-12d3-a456-426614174000", // hardcoded for now
+      company_id: 1, // later make dynamic
       year: new Date().getFullYear(),
       metrics: formData,
     };
@@ -179,19 +153,11 @@ function ESGForm({ schema }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status === "success") {
-          setSnackbar({
-            open: true,
-            message: "✅ ESG data saved successfully!",
-            severity: "success",
-          });
-        } else {
-          setSnackbar({
-            open: true,
-            message: `❌ Error: ${data.message}`,
-            severity: "error",
-          });
-        }
+        setSnackbar({
+          open: true,
+          message: "✅ ESG data saved successfully!",
+          severity: "success",
+        });
       })
       .catch((err) => {
         setSnackbar({
@@ -237,7 +203,7 @@ function ESGForm({ schema }) {
       </Box>
 
       {/* Render fields for active tab */}
-      <Box>{renderFields(categories[tab], schema[categories[tab]])}</Box>
+      <Box>{renderFields(categories[tab], groupedSchema[categories[tab]])}</Box>
 
       {/* Submit Button */}
       <Button
@@ -249,7 +215,7 @@ function ESGForm({ schema }) {
         Submit
       </Button>
 
-      {/* ✅ Snackbar for feedback */}
+      {/* Snackbar */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={4000}
