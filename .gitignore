@@ -21,13 +21,37 @@ __pycache__/
 *.egg-info/
 .eggs/
 *.sqlite3
-.env
+
+# Virtual environments
 .venv/
 venv/
-.env.local
-.env.*.local
+env/
+ENV/
 
-# Alembic migrations cache
+# ======================
+# Secrets & Environment
+# ======================
+# Never commit any environment or secrets file
+.env
+.env.*
+.env.local
+.env.development
+.env.production
+.env.test
+.envrc
+secrets.json
+secrets.yaml
+*.pem
+*.key
+*.crt
+*.pfx
+*.cert
+*.der
+*.csr
+
+# ======================
+# Alembic
+# ======================
 alembic/versions/__pycache__/
 alembic.ini.bak
 
@@ -57,3 +81,10 @@ htmlcov/
 .pytest_cache/
 .jest/
 jest-html-reporters-*
+
+# ======================
+# Misc
+# ======================
+*.orig
+*.rej
+*.patch
