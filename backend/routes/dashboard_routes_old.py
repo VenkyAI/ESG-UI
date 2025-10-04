@@ -4,12 +4,22 @@ from datetime import date
 
 from backend.database import SessionLocal
 from backend.models import esg_scorecard
-from backend.schemas.dashboard_schemas import KPIBase
+from backend.schemas.dashboard_schemas import (
+    KPIBase,
+    KPIOut,
+    KPIUpdate,
+    ScoreRequest,
+    PillarWeightBase,
+    PillarWeightOut,
+)
+from backend.engine.esg_engine import run_esg_engine
 
-# Define router
 router = APIRouter(prefix="/dashboard", tags=["dashboard"])
 
-# Dependency to get DB session
+
+# -----------------------------
+# Dependency for DB session
+# -----------------------------
 def get_db():
     db = SessionLocal()
     try:
@@ -17,137 +27,162 @@ def get_db():
     finally:
         db.close()
 
-# ----------------------------
-# CRUD + Dashboard Endpoints
-# ----------------------------
 
-from backend.schemas.dashboard_schemas import KPIBase, KPIOut
-
-@router.post("/kpis")
+# -----------------------------
+# KPI Endpoints
+# -----------------------------
+@router.post("/kpis", response_model=KPIOut)
 def create_kpi(kpi: KPIBase, db: Session = Depends(get_db)):
+    db_kpi = esg_scorecard.ESGKpi(**kpi.dict())
+    db.add(db_kpi)
     try:
-        new_kpi = esg_scorecard.ESGKPI(**kpi.dict())
-        db.add(new_kpi)
         db.commit()
-        db.refresh(new_kpi)
-        print("✅ KPI inserted:", new_kpi.kpi_code)
-        return kpi.dict()   # ✅ Just return plain dict
     except Exception as e:
         db.rollback()
-        print("❌ ERROR inserting KPI:", str(e))
-        raise HTTPException(status_code=500, detail=f"Insert failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Insert failed: {str(e)}")
+    db.refresh(db_kpi)
+    return db_kpi
 
 
-@router.get("/kpis")
+@router.get("/kpis", response_model=list[KPIOut])
 def list_kpis(db: Session = Depends(get_db)):
-    """List all KPI definitions"""
-    return db.query(esg_scorecard.ESGKPI).all()
+    return db.query(esg_scorecard.ESGKpi).all()
 
 
-@router.post("/scores")
-def add_score(score: dict, db: Session = Depends(get_db)):
-    """Add a raw score entry for a KPI"""
-    new_score = esg_scorecard.ESGScore(**score)
-    db.add(new_score)
+@router.put("/kpis/{kpi_code}")
+def update_kpi(kpi_code: str, kpi: KPIUpdate, db: Session = Depends(get_db)):
+    db_kpi = db.query(esg_scorecard.ESGKpi).filter_by(kpi_code=kpi_code).first()
+    if not db_kpi:
+        raise HTTPException(status_code=404, detail="KPI not found")
+
+    for field, value in kpi.dict(exclude_unset=True).items():
+        setattr(db_kpi, field, value)
+
+    try:
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Update failed: {str(e)}")
+
+    db.refresh(db_kpi)
+    return {"message": "KPI updated successfully", "kpi_code": db_kpi.kpi_code}
+
+
+@router.delete("/kpis/{kpi_code}")
+def deactivate_kpi(kpi_code: str, db: Session = Depends(get_db)):
+    db_kpi = db.query(esg_scorecard.ESGKpi).filter_by(kpi_code=kpi_code).first()
+    if not db_kpi:
+        raise HTTPException(status_code=404, detail="KPI not found")
+
+    db_kpi.status = "inactive"
+
+    try:
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Deactivate failed: {str(e)}")
+
+    return {"message": "KPI deactivated", "kpi_code": db_kpi.kpi_code}
+
+
+# -----------------------------
+# Pillar Weights Endpoints
+# -----------------------------
+@router.get("/pillar-weights", response_model=list[PillarWeightOut])
+def list_pillar_weights(db: Session = Depends(get_db)):
+    rows = db.query(esg_scorecard.ESGPillarWeight).all()
+    if not rows:
+        return []
+
+    grouped = {}
+    for row in rows:
+        key = (row.company_id, row.reporting_period)
+        if key not in grouped:
+            grouped[key] = {
+                "company_id": row.company_id,
+                "reporting_period": row.reporting_period,
+                "environmental": 0,
+                "social": 0,
+                "governance": 0,
+            }
+        # convert back to percentage for frontend
+        grouped[key][row.pillar.lower()] = float(row.pillar_weight) * 100
+
+    return list(grouped.values())
+
+
+@router.post("/pillar-weights", response_model=PillarWeightOut)
+def set_pillar_weights(weights: PillarWeightBase, db: Session = Depends(get_db)):
+    # ✅ Validation: sum must equal 100 (frontend sends percentages)
+    total = weights.environmental + weights.social + weights.governance
+    if abs(total - 100.0) > 1e-6:
+        raise HTTPException(status_code=400, detail="Weights must sum to 100")
+
+    # Delete old weights for company + period
+    db.query(esg_scorecard.ESGPillarWeight).filter(
+        esg_scorecard.ESGPillarWeight.company_id == weights.company_id,
+        esg_scorecard.ESGPillarWeight.reporting_period == weights.reporting_period,
+    ).delete()
+
+    # Insert new set (store internally as fractions)
+    db.add_all([
+        esg_scorecard.ESGPillarWeight(
+            pillar="Environmental",
+            pillar_weight=weights.environmental / 100.0,
+            company_id=weights.company_id,
+            reporting_period=weights.reporting_period,
+        ),
+        esg_scorecard.ESGPillarWeight(
+            pillar="Social",
+            pillar_weight=weights.social / 100.0,
+            company_id=weights.company_id,
+            reporting_period=weights.reporting_period,
+        ),
+        esg_scorecard.ESGPillarWeight(
+            pillar="Governance",
+            pillar_weight=weights.governance / 100.0,
+            company_id=weights.company_id,
+            reporting_period=weights.reporting_period,
+        ),
+    ])
     db.commit()
-    db.refresh(new_score)
-    return new_score
+    return weights
 
 
-@router.get("/{company_id}/{year}")
-def get_dashboard(company_id: int, year: int, db: Session = Depends(get_db)):
-    """Return final ESG dashboard scores for given company + year"""
-    dashboard = (
-        db.query(esg_scorecard.ESGDashboard)
-        .filter(
-            esg_scorecard.ESGDashboard.company_id == company_id,
-            esg_scorecard.ESGDashboard.reporting_period == date(year, 1, 1),
-        )
-        .first()
-    )
-
-    if not dashboard:
-        raise HTTPException(status_code=404, detail="No dashboard found")
-
-    return {
-        "environmental": dashboard.environmental_score,
-        "social": dashboard.social_score,
-        "governance": dashboard.governance_score,
-        "final_esg": dashboard.final_esg_score,
-    }
-
-
+# -----------------------------
+# Score Calculation (Legacy)
+# -----------------------------
 @router.post("/calculate")
-def calculate_dashboard(payload: dict, db: Session = Depends(get_db)):
+def calculate_scores(payload: ScoreRequest, db: Session = Depends(get_db)):
     """
-    Calculate pillar and final ESG scores for a company.
-    Expected payload:
-    {
-        "company_id": 1,
-        "year": 2024,
-        "scores": [
-            {"kpi_code": "ENV-01", "normalized_score": 70, "weight": 0.2},
-            {"kpi_code": "SOC-01", "normalized_score": 80, "weight": 0.3},
-            {"kpi_code": "GOV-01", "normalized_score": 90, "weight": 0.5}
-        ]
+    ⚠️ Legacy method.
+    Real ESG computation is handled by /dashboard/scores (see below).
+    This remains for backward compatibility but does not perform real scoring.
+    """
+    return {
+        "message": "Deprecated – use /dashboard/scores instead",
+        "company_id": payload.company_id,
+        "reporting_period": payload.reporting_period,
+        "environmental": 0,
+        "social": 0,
+        "governance": 0,
+        "final_score": 0,
     }
+
+
+# -----------------------------
+# ESG Dashboard Scores (New)
+# -----------------------------
+@router.get("/scores/{company_id}/{reporting_period}", response_model=dict)
+def get_scores(company_id: int, reporting_period: date, db: Session = Depends(get_db)):
     """
-    company_id = payload["company_id"]
-    year = payload["year"]
-    scores = payload["scores"]
-
-    # Save individual KPI scores
-    total_env, total_soc, total_gov = 0, 0, 0
-    weight_env, weight_soc, weight_gov = 0, 0, 0
-
-    for s in scores:
-        new_score = esg_scorecard.ESGScore(
-            kpi_code=s["kpi_code"],
-            normalized_score=s["normalized_score"],
-            weighted_score=s["normalized_score"] * s["weight"],
-            user_weightage=s["weight"],
-            company_id=company_id,
-            reporting_period=date(year, 1, 1),
-        )
-        db.add(new_score)
-
-        # Aggregate by pillar
-        kpi = db.query(esg_scorecard.ESGKPI).filter_by(kpi_code=s["kpi_code"]).first()
-        if kpi and kpi.pillar == "Environmental":
-            total_env += new_score.weighted_score
-            weight_env += s["weight"]
-        elif kpi and kpi.pillar == "Social":
-            total_soc += new_score.weighted_score
-            weight_soc += s["weight"]
-        elif kpi and kpi.pillar == "Governance":
-            total_gov += new_score.weighted_score
-            weight_gov += s["weight"]
-
-    # Compute pillar scores
-    env_score = total_env / weight_env if weight_env else 0
-    soc_score = total_soc / weight_soc if weight_soc else 0
-    gov_score = total_gov / weight_gov if weight_gov else 0
-    final_score = (env_score * 0.4) + (soc_score * 0.3) + (gov_score * 0.3)
-
-    # Save dashboard
-    dashboard = esg_scorecard.ESGDashboard(
-        company_id=company_id,
-        reporting_period=date(year, 1, 1),
-        environmental_score=env_score,
-        social_score=soc_score,
-        governance_score=gov_score,
-        final_esg_score=final_score,
-    )
-    db.add(dashboard)
-    db.commit()
-    db.refresh(dashboard)
+    Run ESG engine and return pillar + final scores for the dashboard.
+    """
+    results = run_esg_engine(company_id=company_id, reporting_period=reporting_period, db=db)
 
     return {
-        "environmental": env_score,
-        "social": soc_score,
-        "governance": gov_score,
-        "final": final_score,
+        "company_id": results["company_id"],
+        "reporting_period": str(results["reporting_period"]),
+        "pillar_scores": results["pillar_scores"],
+        "final_score": results["final_score"],
     }
-@router.get("/ping")
-def ping():
-    return {"ok": True}

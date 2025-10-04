@@ -1,6 +1,7 @@
 from pydantic import BaseModel
-from datetime import date
+from datetime import date, datetime
 from typing import List, Optional
+
 
 # -----------------------------
 # KPI Schemas
@@ -16,6 +17,8 @@ class KPIBase(BaseModel):
 
 class KPIOut(KPIBase):
     status: str
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
     class Config:
         orm_mode = True
@@ -29,14 +32,22 @@ class KPIUpdate(BaseModel):
     framework_reference: Optional[str] = None
     status: Optional[str] = None
 
+
+# -----------------------------
+# KPI Mapping Schemas
+# -----------------------------
 class KpiMappingIn(BaseModel):
     form_field: str
     kpi_code: str
 
+
 class KpiMappingOut(KpiMappingIn):
     id: int
+    created_at: Optional[datetime] = None
+
     class Config:
         orm_mode = True
+
 
 # -----------------------------
 # Score Schemas
@@ -75,6 +86,14 @@ class PillarWeightBase(BaseModel):
     governance: float
 
 
+class PillarWeightCreate(PillarWeightBase):
+    """Used when creating pillar weights from frontend form"""
+    pass
+
+
 class PillarWeightOut(PillarWeightBase):
+    id: Optional[int] = None
+    created_at: Optional[datetime] = None
+
     class Config:
         orm_mode = True

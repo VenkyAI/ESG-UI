@@ -80,22 +80,30 @@ function KpiManagementPage() {
     setEditing(true);
   };
 
-  const handleDeactivate = async (kpiCode) => {
-    const confirmDeactivate = window.confirm(
-      `Are you sure you want to deactivate KPI ${kpiCode}?`
-    );
-    if (!confirmDeactivate) return;
+ // ✅ Rename + hard delete
+// ✅ Improved hard delete with error visibility
+const handleDelete = async (kpiCode) => {
+  const confirmDelete = window.confirm(
+    `Are you sure you want to delete KPI ${kpiCode}?`
+  );
+  if (!confirmDelete) return;
 
-    try {
-      const res = await fetch(`http://127.0.0.1:8000/kpis/${kpiCode}`, {
-        method: "DELETE"
-      });
-      if (!res.ok) throw new Error("Deactivate failed");
-      loadKpis();
-    } catch (err) {
-      console.error("Error deactivating KPI:", err);
+  try {
+    const res = await fetch(`http://localhost:8000/kpis/${kpiCode}`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) {
+      const errMsg = await res.text();
+      throw new Error(`Delete failed: ${errMsg}`);
     }
-  };
+
+    await loadKpis(); // refresh after delete
+  } catch (err) {
+    console.error("Error deleting KPI:", err);
+    alert(`Delete failed: ${err.message}`);
+  }
+};
 
   return (
     <div style={{ padding: "20px" }}>
@@ -263,19 +271,18 @@ function KpiManagementPage() {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDeactivate(kpi.kpi_code)}
-                    disabled={kpi.status === "inactive"}
-                    style={{
-                      background: "#dc3545",
-                      color: "white",
-                      padding: "5px 10px",
-                      border: "none",
-                      borderRadius: "3px",
-                      cursor: "pointer"
-                    }}
-                  >
-                    Deactivate
-                  </button>
+  onClick={() => handleDelete(kpi.kpi_code)}
+  style={{
+    background: "#dc3545", // red = delete
+    color: "white",
+    padding: "5px 10px",
+    border: "none",
+    borderRadius: "3px",
+    cursor: "pointer"
+  }}
+>
+  Delete
+</button>
                 </td>
               </tr>
             ))

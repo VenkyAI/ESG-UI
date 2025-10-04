@@ -1,409 +1,558 @@
 [
-  {
-    "name": "carbon_emissions",
-    "label": "Carbon Emissions",
+    {
+    "name": "petrol_consumption",
+    "label": "Petrol Consumption",
     "type": "numeric",
-    "description": "Validates that reported direct carbon emissions remain within the defined organizational threshold.",
+    "method": "input",
+    "theme": "Carbon",
+    "unit": "litres",
     "category": "Environmental",
-    "reference": "GHG Protocol Corporate Standard Ch.4; ISO 14064-1:2018 7.4.3",
-    "min": null,
-    "max": 1000.0,
-    "pattern": null
+    "reference": "GHG Protocol Scope 1 – Stationary Combustion"
   },
   {
-    "name": "renewable_energy_ratio",
-    "label": "Renewable Energy Ratio",
+    "name": "diesel_consumption",
+    "label": "Diesel Consumption",
     "type": "numeric",
-    "description": "Ensures that a minimum share of total energy use comes from renewable sources.",
+    "method": "input",
+    "theme": "Carbon",
+    "unit": "litres",
     "category": "Environmental",
-    "reference": "GHG Protocol Scope 2 Guidance Sec.6.2; ISO 14064-1:2018 7.4.3",
-    "min": 0.2,
-    "max": null,
-    "pattern": null
+    "reference": "GHG Protocol Scope 1 – Stationary Combustion"
   },
   {
-    "name": "water_usage_efficiency",
-    "label": "Water Usage Efficiency",
+    "name": "natural_gas_consumption",
+    "label": "Natural Gas Consumption",
     "type": "numeric",
-    "description": "Confirms that water is used efficiently, ensuring processes consume no more than set thresholds.",
+    "method": "input",
+    "theme": "Carbon",
+    "unit": "m3",
     "category": "Environmental",
-    "reference": "GRI 303: Water and Effluents 2018; ISO 14046 Water Footprint",
-    "min": 0.5,
-    "max": null,
-    "pattern": null
+    "reference": "GHG Protocol Scope 1 – Combustion"
   },
   {
-    "name": "waste_recycling_rate",
-    "label": "Waste Recycling Rate",
+    "name": "electricity_consumption",
+    "label": "Electricity Consumption",
     "type": "numeric",
-    "description": "Checks that a minimum portion of waste generated is being recycled or recovered.",
+    "method": "input",
+    "theme": "Carbon",
+    "unit": "kWh",
     "category": "Environmental",
-    "reference": "GRI 306: Waste 2020; EU Waste Framework Directive",
-    "min": 0.3,
-    "max": null,
-    "pattern": null
-  },
-  {
-    "name": "biodiversity_protection",
-    "label": "Biodiversity Protection",
-    "type": "boolean",
-    "description": "Ensures that biodiversity protection practices are reported and in place.",
-    "category": "Environmental",
-    "reference": "GRI 304: Biodiversity 2016; ISO 14055-1:2017",
-    "min": null,
-    "max": null,
-    "pattern": null
-  },
-  {
-    "name": "ghg_scope3_reporting",
-    "label": "Ghg Scope3 Reporting",
-    "type": "boolean",
-    "description": "Confirms whether indirect Scope 3 emissions are disclosed in accordance with recognized standards.",
-    "category": "Environmental",
-    "reference": "GHG Protocol Scope 3 Standard Ch.5",
-    "min": null,
-    "max": null,
-    "pattern": null
-  },
-  {
-    "name": "hazardous_waste_disclosure",
-    "label": "Hazardous Waste Disclosure",
-    "type": "regex",
-    "description": "Ensures hazardous waste management is disclosed transparently as 'disclosed' or 'not_disclosed'.",
-    "category": "Environmental",
-    "reference": "GRI 306: Waste 2020; Basel Convention",
-    "min": null,
-    "max": null,
-    "pattern": "^(disclosed|not_disclosed)$"
-  },
-  {
-    "name": "energy_efficiency_index",
-    "label": "Energy Efficiency Index",
-    "type": "numeric",
-    "description": "Verifies overall energy efficiency performance meets organizational targets.",
-    "category": "Environmental",
-    "reference": "ISO 50001:2018 Energy Management Systems",
-    "min": 0.7,
-    "max": null,
-    "pattern": null
-  },
-  {
-    "name": "environmental_fines",
-    "label": "Environmental Fines",
-    "type": "numeric",
-    "description": "Validates that no environmental fines have been incurred during the reporting period.",
-    "category": "Environmental",
-    "reference": "GRI 307: Environmental Compliance 2016",
-    "min": null,
-    "max": 0.0,
-    "pattern": null
-  },
-  {
-    "name": "climate_risk_assessment",
-    "label": "Climate Risk Assessment",
-    "type": "boolean",
-    "description": "Ensures the organization performs a climate risk assessment in line with global frameworks.",
-    "category": "Environmental",
-    "reference": "TCFD Recommendations; ISO 14091:2021",
-    "min": null,
-    "max": null,
-    "pattern": null
+    "reference": "GHG Protocol Scope 2 – Purchased Electricity"
   },
   {
     "name": "scope1_emissions",
-    "label": "Scope1 Emissions",
+    "label": "Scope 1 Emissions",
     "type": "numeric",
-    "description": "Ensures that Scope 1 (direct) emissions are comprehensively reported and included in the inventory.",
+    "method": "kpi",
+    "theme": "Carbon",
+    "unit": "tCO2e",
     "category": "Environmental",
-    "reference": "GHG Protocol Corporate Standard Ch.4.2; ISO 14064-1:2018 7.3.2; IPCC 2006 Vol.1 Ch.2",
-    "min": null,
-    "max": null,
-    "pattern": null
-  },
-  {
-    "name": "NaN",
-    "label": "Nan",
-    "type": "expression",
-    "description": "Validates disclosure across all 15 Scope 3 categories when applicable.",
-    "category": "Environmental",
-    "reference": "GHG Protocol Scope 3 Standard Ch.5",
-    "min": null,
-    "max": null,
-    "pattern": null
+    "reference": "GHG Protocol Scope 1 – Direct Emissions"
   },
   {
     "name": "scope2_emissions",
-    "label": "Scope2 Emissions",
+    "label": "Scope 2 Emissions",
     "type": "numeric",
-    "description": "Ensures Scope 2 (indirect energy) emissions are disclosed in compliance with GHG Protocol.",
+    "method": "kpi",
+    "theme": "Carbon",
+    "unit": "tCO2e",
     "category": "Environmental",
-    "reference": "GHG Protocol Scope 2 Guidance Sec.2.2; ISO 14064-1:2018 7.3.3",
-    "min": null,
-    "max": null,
-    "pattern": null
+    "reference": "GHG Protocol Scope 2 – Indirect Emissions"
   },
+{
+  "name": "business_travel_distance",
+  "label": "Business Travel Distance",
+  "type": "numeric",
+  "method": "input",
+  "theme": "Carbon",
+  "unit": "km",
+  "category": "Environmental",
+  "reference": "GHG Protocol Scope 3 – Category 6: Business Travel"
+},
+{
+  "name": "employee_commuting_distance",
+  "label": "Employee Commuting Distance",
+  "type": "numeric",
+  "method": "input",
+  "theme": "Carbon",
+  "unit": "km",
+  "category": "Environmental",
+  "reference": "GHG Protocol Scope 3 – Category 7: Employee Commuting"
+},
+{
+  "name": "logistics_fuel_consumption",
+  "label": "Upstream Logistics Fuel Consumption",
+  "type": "numeric",
+  "method": "input",
+  "theme": "Carbon",
+  "unit": "litres",
+  "category": "Environmental",
+  "reference": "GHG Protocol Scope 3 – Category 4: Upstream Transport and Distribution"
+},
+{
+  "name": "purchased_goods_emissions",
+  "label": "Purchased Goods & Services (Embedded Emissions)",
+  "type": "numeric",
+  "method": "input",
+  "theme": "Carbon",
+  "unit": "tCO2e",
+  "category": "Environmental",
+  "reference": "GHG Protocol Scope 3 – Category 1: Purchased Goods and Services"
+},
   {
     "name": "scope3_emissions",
-    "label": "Scope3 Emissions",
+    "label": "Scope 3 Emissions",
     "type": "numeric",
-    "description": "Ensures Scope 3 (value chain) emissions are disclosed when material and relevant.",
+    "method": "kpi",
+    "theme": "Carbon",
+    "unit": "tCO2e",
     "category": "Environmental",
-    "reference": "GHG Protocol Scope 3 Standard Ch.4; ISO 14064-1:2018 7.3.4",
-    "min": null,
-    "max": null,
-    "pattern": null
+    "reference": "GHG Protocol Scope 3 – Value Chain"
+  },
+  {
+    "name": "carbon_emissions_total",
+    "label": "Total Carbon Emissions",
+    "type": "numeric",
+    "method": "kpi",
+    "theme": "Carbon",
+    "unit": "tCO2e",
+    "category": "Environmental",
+    "reference": "GHG Protocol Corporate Standard"
+  },
+  {
+    "name": "carbon_intensity",
+    "label": "Carbon Intensity (per unit revenue)",
+    "type": "numeric",
+    "method": "kpi",
+    "theme": "Carbon",
+    "unit": "tCO2e / revenue",
+    "category": "Environmental",
+    "reference": "SASB Climate Metrics"
   },
   {
     "name": "emission_factors_documented",
     "label": "Emission Factors Documented",
     "type": "boolean",
-    "description": "Ensures that emission factors used for calculations are disclosed and documented.",
+    "method": "kpi",
+    "theme": "Carbon",
     "category": "Environmental",
-    "reference": "IPCC 2006 Vol.1 Ch.2.2.1; ISO 14064-1:2018 7.4.3",
-    "min": null,
-    "max": null,
-    "pattern": null
+    "reference": "GHG Protocol Guidance"
   },
   {
-    "name": "units_consistency",
-    "label": "Units Consistency",
+    "name": "ghg_scope3_reporting",
+    "label": "GHG Scope 3 Reporting",
     "type": "boolean",
-    "description": "Checks that units of measurement are consistent across all reported emissions.",
+    "method": "kpi",
+    "theme": "Carbon",
     "category": "Environmental",
-    "reference": "GHG Protocol Appendix A; ISO 14064-1:2018 9.2.2",
-    "min": null,
-    "max": null,
-    "pattern": null
+    "reference": "GHG Protocol Scope 3 Standard"
+  },
+
+ 
+  {
+    "name": "renewable_energy_consumption",
+    "label": "Renewable Energy Consumption",
+    "type": "numeric",
+    "method": "input",
+    "theme": "Energy",
+    "unit": "kWh",
+    "category": "Environmental",
+    "reference": "ISO 50001 Energy Management"
   },
   {
-    "name": "reporting_period_consistency",
-    "label": "Reporting Period Consistency",
-    "type": "boolean",
-    "description": "Ensures emissions reporting period matches the organization\u2019s financial or operational cycle.",
+    "name": "total_energy_consumption",
+    "label": "Total Energy Consumption",
+    "type": "numeric",
+    "method": "input",
+    "theme": "Energy",
+    "unit": "kWh",
     "category": "Environmental",
-    "reference": "GHG Protocol Ch.5.3; ISO 14064-1:2018 7.5.1",
-    "min": null,
-    "max": null,
-    "pattern": null
+    "reference": "ISO 50001 Energy Management"
+  },
+  {
+    "name": "renewable_energy_ratio",
+    "label": "Renewable Energy Ratio",
+    "type": "numeric",
+    "method": "kpi",
+    "theme": "Energy",
+    "unit": "%",
+    "category": "Environmental",
+    "reference": "GHG Protocol Scope 2 Guidance"
+  },
+  {
+    "name": "energy_efficiency_index",
+    "label": "Energy Efficiency Index",
+    "type": "numeric",
+    "method": "kpi",
+    "theme": "Energy",
+    "unit": "index",
+    "category": "Environmental",
+    "reference": "ISO 50001 Efficiency Metrics"
+  },
+
+
+  {
+    "name": "freshwater_withdrawal",
+    "label": "Freshwater Withdrawal",
+    "type": "numeric",
+    "method": "input",
+    "theme": "Water",
+    "unit": "m3",
+    "category": "Environmental",
+    "reference": "GRI 303: Water and Effluents"
+  },
+  {
+    "name": "water_discharged",
+    "label": "Water Discharged",
+    "type": "numeric",
+    "method": "input",
+    "theme": "Water",
+    "unit": "m3",
+    "category": "Environmental",
+    "reference": "GRI 303: Water and Effluents"
+  },
+  {
+    "name": "water_recycled",
+    "label": "Water Recycled",
+    "type": "numeric",
+    "method": "input",
+    "theme": "Water",
+    "unit": "m3",
+    "category": "Environmental",
+    "reference": "GRI 303: Water and Effluents"
+  },
+  {
+    "name": "water_usage_efficiency",
+    "label": "Water Usage Efficiency",
+    "type": "numeric",
+    "method": "kpi",
+    "theme": "Water",
+    "unit": "ratio",
+    "category": "Environmental",
+    "reference": "GRI 303: Water and Effluents"
+  },
+
+  {
+    "name": "waste_generated",
+    "label": "Waste Generated",
+    "type": "numeric",
+    "method": "input",
+    "theme": "Waste",
+    "unit": "tonnes",
+    "category": "Environmental",
+    "reference": "GRI 306: Waste"
+  },
+  {
+    "name": "waste_recycled",
+    "label": "Waste Recycled",
+    "type": "numeric",
+    "method": "input",
+    "theme": "Waste",
+    "unit": "tonnes",
+    "category": "Environmental",
+    "reference": "GRI 306: Waste"
+  },
+  {
+    "name": "waste_recycling_rate",
+    "label": "Waste Recycling Rate",
+    "type": "numeric",
+    "method": "kpi",
+    "theme": "Waste",
+    "unit": "%",
+    "category": "Environmental",
+    "reference": "GRI 306: Waste"
+  },
+  {
+    "name": "hazardous_waste_disclosure",
+    "label": "Hazardous Waste Disclosure",
+    "type": "regex",
+    "method": "kpi",
+    "theme": "Waste",
+    "category": "Environmental",
+    "reference": "GRI 306: Waste 2020; Basel Convention",
+    "pattern": "^(disclosed|not_disclosed)$"
+  },
+
+
+  {
+    "name": "climate_risk_assessment",
+    "label": "Climate Risk Assessment",
+    "type": "boolean",
+    "method": "kpi",
+    "theme": "Climate Risk",
+    "category": "Environmental",
+    "reference": "TCFD Recommendations; ISO 14091:2021"
+  },
+  {
+    "name": "biodiversity_protection",
+    "label": "Biodiversity Protection",
+    "type": "boolean",
+    "method": "kpi",
+    "theme": "Climate Risk",
+    "category": "Environmental",
+    "reference": "GRI 304: Biodiversity"
+  },
+  {
+    "name": "environmental_fines",
+    "label": "Environmental Fines and Penalties",
+    "type": "numeric",
+    "method": "kpi",
+    "theme": "Climate Risk",
+    "unit": "currency",
+    "category": "Environmental",
+    "reference": "GRI 307: Environmental Compliance"
+  },
+
+  
+  {
+    "name": "employee_count",
+    "label": "Employee Count",
+    "type": "numeric",
+    "method": "input",
+    "theme": "Diversity & Inclusion",
+    "unit": "headcount",
+    "category": "Social",
+    "reference": "GRI 405: Diversity and Equal Opportunity"
+  },
+  {
+    "name": "gender_ratio",
+    "label": "Gender Ratio (Male/Female)",
+    "type": "numeric",
+    "method": "input",
+    "theme": "Diversity & Inclusion",
+    "unit": "%",
+    "category": "Social",
+    "reference": "GRI 405: Diversity and Equal Opportunity"
   },
   {
     "name": "employee_diversity_ratio",
     "label": "Employee Diversity Ratio",
     "type": "numeric",
-    "description": "Ensures at least 30% diversity across the workforce (gender, ethnicity, or other protected classes).",
+    "method": "kpi",
+    "theme": "Diversity & Inclusion",
+    "unit": "%",
     "category": "Social",
-    "reference": "GRI 405: Diversity and Equal Opportunity; ISO 26000 Sec.6.3.7",
-    "min": 0.3,
-    "max": null,
-    "pattern": null
+    "reference": "GRI 405: Diversity and Equal Opportunity"
   },
   {
     "name": "pay_equity_gap",
     "label": "Pay Equity Gap",
     "type": "numeric",
-    "description": "Validates that the gender pay gap does not exceed 10% across equivalent roles.",
+    "method": "kpi",
+    "theme": "Diversity & Inclusion",
+    "unit": "%",
     "category": "Social",
-    "reference": "GRI 405-2 Ratio of basic salary; ILO Equal Remuneration Convention C100",
-    "min": null,
-    "max": 0.1,
-    "pattern": null
+    "reference": "GRI 405-2 Equal Remuneration"
   },
+
   {
     "name": "health_safety_incidents",
-    "label": "Health Safety Incidents",
+    "label": "Health & Safety Incidents",
     "type": "numeric",
-    "description": "Ensures that workplace incidents remain within safety thresholds.",
+    "method": "kpi",
+    "theme": "Health & Safety",
+    "unit": "count",
     "category": "Social",
-    "reference": "GRI 403: Occupational Health and Safety; ISO 45001",
-    "min": null,
-    "max": 5.0,
-    "pattern": null
+    "reference": "GRI 403: Occupational Health and Safety"
   },
+  {
+    "name": "fatalities",
+    "label": "Workforce Fatalities",
+    "type": "numeric",
+    "method": "kpi",
+    "theme": "Health & Safety",
+    "unit": "count",
+    "category": "Social",
+    "reference": "GRI 403: Occupational Health and Safety"
+  },
+  {
+    "name": "ltifr",
+    "label": "Lost Time Injury Frequency Rate",
+    "type": "numeric",
+    "method": "kpi",
+    "theme": "Health & Safety",
+    "unit": "rate",
+    "category": "Social",
+    "reference": "GRI 403: Occupational Health and Safety"
+  },
+
+
   {
     "name": "employee_training_hours",
     "label": "Employee Training Hours",
     "type": "numeric",
-    "description": "Validates employees receive a minimum of 20 hours of professional development annually.",
+    "method": "input",
+    "theme": "Training & Development",
+    "unit": "hours",
     "category": "Social",
-    "reference": "GRI 404: Training and Education",
-    "min": 20.0,
-    "max": null,
-    "pattern": null
+    "reference": "GRI 404: Training and Education"
   },
   {
-    "name": "turnover_rate",
-    "label": "Turnover Rate",
-    "type": "numeric",
-    "description": "Ensures voluntary employee turnover does not exceed 15% annually.",
+    "name": "training_compliance",
+    "label": "Training Compliance KPI",
+    "type": "boolean",
+    "method": "kpi",
+    "theme": "Training & Development",
     "category": "Social",
-    "reference": "GRI 401-1 Employee Turnover",
-    "min": null,
-    "max": 0.15,
-    "pattern": null
+    "reference": "GRI 404: Training and Education"
+  },
+
+  {
+    "name": "turnover_rate",
+    "label": "Employee Turnover Rate",
+    "type": "numeric",
+    "method": "kpi",
+    "theme": "Workforce",
+    "unit": "%",
+    "category": "Social",
+    "reference": "GRI 401: Employment"
   },
   {
     "name": "whistleblower_policy",
     "label": "Whistleblower Policy",
     "type": "boolean",
-    "description": "Confirms presence of a whistleblower protection mechanism.",
+    "method": "kpi",
+    "theme": "Workforce",
     "category": "Social",
-    "reference": "GRI 102-17 Mechanisms for advice and concerns",
-    "min": null,
-    "max": null,
-    "pattern": null
-  },
-  {
-    "name": "customer_satisfaction_index",
-    "label": "Customer Satisfaction Index",
-    "type": "numeric",
-    "description": "Validates customer satisfaction levels exceed 70%.",
-    "category": "Social",
-    "reference": "ISO 10004: Quality management \u2014 Customer satisfaction",
-    "min": 0.7,
-    "max": null,
-    "pattern": null
-  },
-  {
-    "name": "community_investment",
-    "label": "Community Investment",
-    "type": "numeric",
-    "description": "Ensures a minimum level of financial investment in community programs.",
-    "category": "Social",
-    "reference": "GRI 413: Local Communities",
-    "min": 100000.0,
-    "max": null,
-    "pattern": null
-  },
-  {
-    "name": "data_privacy_incidents",
-    "label": "Data Privacy Incidents",
-    "type": "numeric",
-    "description": "Validates that no data privacy breaches have occurred in the reporting period.",
-    "category": "Social",
-    "reference": "GRI 418: Customer Privacy; GDPR",
-    "min": null,
-    "max": 0.0,
-    "pattern": null
+    "reference": "GRI 102-17 Ethics"
   },
   {
     "name": "human_rights_policy",
     "label": "Human Rights Policy",
     "type": "boolean",
-    "description": "Confirms presence of a formal human rights policy aligned with UN Guiding Principles.",
+    "method": "kpi",
+    "theme": "Workforce",
     "category": "Social",
-    "reference": "GRI 412: Human Rights Assessment; ISO 26000 Sec.6.3",
-    "min": null,
-    "max": null,
-    "pattern": null
+    "reference": "GRI 412: Human Rights Assessment"
   },
+
+  {
+    "name": "customer_satisfaction_index",
+    "label": "Customer Satisfaction Index",
+    "type": "numeric",
+    "method": "kpi",
+    "theme": "Customer & Community",
+    "unit": "%",
+    "category": "Social",
+    "reference": "ISO 10004: Customer Satisfaction"
+  },
+  {
+    "name": "community_investment",
+    "label": "Community Investment",
+    "type": "numeric",
+    "method": "kpi",
+    "theme": "Customer & Community",
+    "unit": "currency",
+    "category": "Social",
+    "reference": "GRI 413: Local Communities"
+  },
+  {
+    "name": "data_privacy_incidents",
+    "label": "Data Privacy Incidents",
+    "type": "numeric",
+    "method": "kpi",
+    "theme": "Customer & Community",
+    "unit": "count",
+    "category": "Social",
+    "reference": "GRI 418: Customer Privacy"
+  },
+
   {
     "name": "board_independence_ratio",
     "label": "Board Independence Ratio",
     "type": "numeric",
-    "description": "Ensures that at least 50% of board members are independent.",
+    "method": "kpi",
+    "theme": "Board & Management",
+    "unit": "%",
     "category": "Governance",
-    "reference": "OECD Principles of Corporate Governance; GRI 102-22",
-    "min": 0.5,
-    "max": null,
-    "pattern": null
-  },
-  {
-    "name": "executive_compensation_linked_esg",
-    "label": "Executive Compensation Linked Esg",
-    "type": "boolean",
-    "description": "Confirms that executive pay structures are linked to ESG performance metrics.",
-    "category": "Governance",
-    "reference": "GRI 102-35 Remuneration policies",
-    "min": null,
-    "max": null,
-    "pattern": null
-  },
-  {
-    "name": "anti_corruption_policy",
-    "label": "Anti Corruption Policy",
-    "type": "boolean",
-    "description": "Ensures that a zero-tolerance anti-corruption policy exists.",
-    "category": "Governance",
-    "reference": "GRI 205: Anti-Corruption; ISO 37001:2016",
-    "min": null,
-    "max": null,
-    "pattern": null
-  },
-  {
-    "name": "shareholder_rights_protection",
-    "label": "Shareholder Rights Protection",
-    "type": "boolean",
-    "description": "Confirms measures to protect shareholder voting and information rights.",
-    "category": "Governance",
-    "reference": "OECD Principles of Corporate Governance Sec.III",
-    "min": null,
-    "max": null,
-    "pattern": null
+    "reference": "OECD Corporate Governance Principles"
   },
   {
     "name": "audit_committee_independence",
     "label": "Audit Committee Independence",
     "type": "numeric",
-    "description": "Ensures audit committees have majority independent directors.",
+    "method": "kpi",
+    "theme": "Board & Management",
+    "unit": "%",
     "category": "Governance",
-    "reference": "GRI 102-22; IIA Standards",
-    "min": 0.5,
-    "max": null,
-    "pattern": null
+    "reference": "IIA Standards"
+  },
+  {
+    "name": "executive_compensation_linked_esg",
+    "label": "Executive Compensation Linked to ESG",
+    "type": "boolean",
+    "method": "kpi",
+    "theme": "Board & Management",
+    "category": "Governance",
+    "reference": "GRI 102-35 Remuneration"
+  },
+
+ {
+    "name": "anti_corruption_policy",
+    "label": "Anti-Corruption Policy",
+    "type": "boolean",
+    "method": "kpi",
+    "theme": "Ethics & Compliance",
+    "category": "Governance",
+    "reference": "GRI 205: Anti-Corruption"
   },
   {
     "name": "tax_transparency",
     "label": "Tax Transparency",
     "type": "boolean",
-    "description": "Validates disclosure of country-by-country tax payments.",
+    "method": "kpi",
+    "theme": "Ethics & Compliance",
     "category": "Governance",
-    "reference": "GRI 207: Tax 2019; OECD BEPS Action 13",
-    "min": null,
-    "max": null,
-    "pattern": null
+    "reference": "GRI 207: Tax"
   },
   {
     "name": "political_contributions_disclosure",
     "label": "Political Contributions Disclosure",
     "type": "regex",
-    "description": "Ensures that political contributions are disclosed transparently.",
+    "method": "kpi",
+    "theme": "Ethics & Compliance",
     "category": "Governance",
     "reference": "GRI 415: Public Policy",
-    "min": null,
-    "max": null,
     "pattern": "^(disclosed|not_disclosed)$"
   },
+
+ 
+  {
+    "name": "shareholder_rights_protection",
+    "label": "Shareholder Rights Protection",
+    "type": "boolean",
+    "method": "kpi",
+    "theme": "Shareholder Rights",
+    "category": "Governance",
+    "reference": "OECD Principles of Corporate Governance"
+  },
+
   {
     "name": "cybersecurity_governance",
     "label": "Cybersecurity Governance",
     "type": "boolean",
-    "description": "Confirms that governance structures exist for cybersecurity oversight.",
+    "method": "kpi",
+    "theme": "Cybersecurity & Risk",
     "category": "Governance",
-    "reference": "ISO/IEC 27014:2013 Governance of information security",
-    "min": null,
-    "max": null,
-    "pattern": null
+    "reference": "ISO/IEC 27014 Governance of Information Security"
   },
   {
     "name": "risk_management_framework",
     "label": "Risk Management Framework",
     "type": "boolean",
-    "description": "Validates existence of an enterprise risk management framework.",
+    "method": "kpi",
+    "theme": "Cybersecurity & Risk",
     "category": "Governance",
-    "reference": "COSO Enterprise Risk Management Framework",
-    "min": null,
-    "max": null,
-    "pattern": null
+    "reference": "COSO Enterprise Risk Management"
   },
+
   {
     "name": "stakeholder_engagement",
-    "label": "Stakeholder Engagement",
+    "label": "Stakeholder Engagement Policy",
     "type": "boolean",
-    "description": "Ensures structured engagement with stakeholders on ESG issues.",
+    "method": "kpi",
+    "theme": "Stakeholder Engagement",
     "category": "Governance",
-    "reference": "GRI 102-40 Stakeholder engagement",
-    "min": null,
-    "max": null,
-    "pattern": null
+    "reference": "GRI 102-40 Stakeholder Engagement"
   }
 ]

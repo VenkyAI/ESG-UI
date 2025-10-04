@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 
 function KpiMappingPage() {
   const [mappings, setMappings] = useState([]);
+  const [formFields, setFormFields] = useState([]);
   const [newMapping, setNewMapping] = useState({
     form_field: "",
     kpi_code: "",
+    aggregation_method: "SUM",
+    is_current: true,
   });
   const [kpis, setKpis] = useState([]);
   const [editingId, setEditingId] = useState(null);
@@ -13,7 +16,7 @@ function KpiMappingPage() {
   // Fetch all mappings
   const fetchMappings = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/kpi-mappings/");
+      const response = await fetch("http://localhost:8000/kpi-mappings/");
       if (!response.ok) throw new Error("Failed to fetch mappings");
       const data = await response.json();
       setMappings(data);
@@ -25,7 +28,7 @@ function KpiMappingPage() {
   // Fetch all KPIs for dropdown
   const fetchKpis = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/kpis/");
+      const response = await fetch("http://localhost:8000/kpis/");
       if (!response.ok) throw new Error("Failed to fetch KPIs");
       const data = await response.json();
       setKpis(data);
@@ -34,9 +37,22 @@ function KpiMappingPage() {
     }
   };
 
+  // Fetch available form fields for dropdown
+  const fetchFormFields = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/kpi-mappings/form-fields");
+      if (!response.ok) throw new Error("Failed to fetch form fields");
+      const data = await response.json();
+      setFormFields(data);
+    } catch (error) {
+      console.error("Error loading form fields:", error);
+    }
+  };
+
   useEffect(() => {
     fetchMappings();
     fetchKpis();
+    fetchFormFields();
   }, []);
 
   // Handle form input changes
@@ -51,17 +67,27 @@ function KpiMappingPage() {
 
   // Create new mapping
   const handleAdd = async () => {
+    if (!newMapping.form_field) {
+      alert("Please select a Form Field before saving a mapping.");
+      return;
+    }
+    if (!newMapping.kpi_code) {
+      alert("Please select a KPI Code before saving a mapping.");
+      return;
+    }
     try {
-      const response = await fetch("http://127.0.0.1:8000/kpi-mappings/", {
+      const response = await fetch("http://localhost:8000/kpi-mappings/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          form_field: newMapping.form_field,
-          kpi_code: newMapping.kpi_code,
-        }),
+        body: JSON.stringify(newMapping),
       });
       if (!response.ok) throw new Error("Failed to create mapping");
-      setNewMapping({ form_field: "", kpi_code: "" });
+      setNewMapping({
+        form_field: "",
+        kpi_code: "",
+        aggregation_method: "SUM",
+        is_current: true,
+      });
       fetchMappings();
     } catch (error) {
       console.error("Error adding mapping:", error);
@@ -76,14 +102,20 @@ function KpiMappingPage() {
 
   // Save edit
   const handleSave = async (id) => {
+    if (!editMapping.form_field) {
+      alert("Please select a Form Field before saving.");
+      return;
+    }
+    if (!editMapping.kpi_code) {
+      alert("Please select a KPI Code before saving.");
+      return;
+    }
     try {
-      const response = await fetch(`http://127.0.0.1:8000/kpi-mappings/${id}`, {
+      const payload = { ...editMapping, is_current: true };
+      const response = await fetch(`http://localhost:8000/kpi-mappings/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          form_field: editMapping.form_field,
-          kpi_code: editMapping.kpi_code,
-        }),
+        body: JSON.stringify(payload),
       });
       if (!response.ok) throw new Error("Failed to update mapping");
       setEditingId(null);
@@ -102,7 +134,7 @@ function KpiMappingPage() {
   // Delete mapping
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/kpi-mappings/${id}`, {
+      const response = await fetch(`http://localhost:8000/kpi-mappings/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete mapping");
@@ -119,13 +151,18 @@ function KpiMappingPage() {
       {/* Add New Mapping */}
       <div>
         <h3>Add Mapping</h3>
-        <input
-          type="text"
+        <select
           name="form_field"
-          placeholder="Form Field"
           value={newMapping.form_field}
           onChange={handleChange}
-        />
+        >
+          <option value="">-- Select Form Field --</option>
+          {formFields.map((f) => (
+            <option key={f} value={f}>
+              {f}
+            </option>
+          ))}
+        </select>
         <select
           name="kpi_code"
           value={newMapping.kpi_code}
@@ -137,6 +174,15 @@ function KpiMappingPage() {
               {k.kpi_code} - {k.kpi_description}
             </option>
           ))}
+        </select>
+        <select
+          name="aggregation_method"
+          value={newMapping.aggregation_method}
+          onChange={handleChange}
+        >
+          <option value="SUM">SUM</option>
+          <option value="AVG">AVG</option>
+          <option value="LATEST">LATEST</option>
         </select>
         <button onClick={handleAdd}>Add</button>
       </div>
@@ -153,6 +199,9 @@ function KpiMappingPage() {
             <th>ID</th>
             <th>Form Field</th>
             <th>KPI Code</th>
+            <th>Aggregation</th>
+            <th>Is Current</th>
+            <th>Updated At</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -163,12 +212,18 @@ function KpiMappingPage() {
                 <td>{m.id}</td>
                 <td>
                   {editingId === m.id ? (
-                    <input
-                      type="text"
+                    <select
                       name="form_field"
                       value={editMapping.form_field || ""}
                       onChange={(e) => handleChange(e, true)}
-                    />
+                    >
+                      <option value="">-- Select Form Field --</option>
+                      {formFields.map((f) => (
+                        <option key={f} value={f}>
+                          {f}
+                        </option>
+                      ))}
+                    </select>
                   ) : (
                     m.form_field
                   )}
@@ -193,6 +248,23 @@ function KpiMappingPage() {
                 </td>
                 <td>
                   {editingId === m.id ? (
+                    <select
+                      name="aggregation_method"
+                      value={editMapping.aggregation_method || "SUM"}
+                      onChange={(e) => handleChange(e, true)}
+                    >
+                      <option value="SUM">SUM</option>
+                      <option value="AVG">AVG</option>
+                      <option value="LATEST">LATEST</option>
+                    </select>
+                  ) : (
+                    m.aggregation_method || "SUM"
+                  )}
+                </td>
+                <td>{m.is_current ? "Yes" : "No"}</td>
+                <td>{m.updated_at}</td>
+                <td>
+                  {editingId === m.id ? (
                     <>
                       <button onClick={() => handleSave(m.id)}>Save</button>
                       <button onClick={handleCancel}>Cancel</button>
@@ -208,7 +280,7 @@ function KpiMappingPage() {
             ))
           ) : (
             <tr>
-              <td colSpan="4">No mappings saved yet</td>
+              <td colSpan="7">No mappings saved yet</td>
             </tr>
           )}
         </tbody>
