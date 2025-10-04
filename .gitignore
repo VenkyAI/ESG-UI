@@ -1,34 +1,59 @@
-# --- Python ---
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-.env
-*.egg-info/
-.eggs/
-build/
-develop-eggs/
-dist/
-pip-wheel-metadata/
-.installed.cfg
-
-# --- PyInstaller build artifacts ---
-*.spec
-/dist/
-/build/
-/*.exe
-
-# --- Node / Frontend ---
-node_modules/
-/frontend/node_modules/
-/frontend/dist/
-/frontend/build/
-/frontend/.vite
-
-# --- OS / Editor cruft ---
+# ======================
+# OS / Editor junk
+# ======================
 .DS_Store
 Thumbs.db
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+*.orig
 
-# --- Generated Docs ---
-*.docx
-*.pdf
+# ======================
+# Python / FastAPI backend
+# ======================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+*.sqlite3
+.env
+.venv/
+venv/
+.env.local
+.env.*.local
+
+# Alembic migrations cache
+alembic/versions/__pycache__/
+alembic.ini.bak
+
+# ======================
+# Node / React frontend
+# ======================
+node_modules/
+dist/
+build/
+.cache/
+.vite/
+*.tsbuildinfo
+
+# ======================
+# IDE / Tooling
+# ======================
+.vscode/
+.idea/
+*.iml
+
+# ======================
+# Coverage / Testing
+# ======================
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.jest/
+jest-html-reporters-*
